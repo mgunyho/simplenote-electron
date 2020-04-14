@@ -4,6 +4,9 @@ import * as T from '../../types';
 const tags: A.Reducer<T.TagEntity[]> = (state = [], action) => {
   switch (action.type) {
     case 'TAGS_LOADED': {
+      if (!action.tags) {
+        return state;
+      }
       const sortedTags = action.tags.slice();
       if (action.sortTagsAlpha) {
         // Sort tags alphabetically by 'name' value

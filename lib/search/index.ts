@@ -19,7 +19,7 @@ export const middleware: S.Middleware = store => {
     previousIndex?: number
   ) => {
     const {
-      appState,
+      notes,
       tags,
       ui: { searchQuery },
     } = store.getState();
@@ -28,7 +28,7 @@ export const middleware: S.Middleware = store => {
 
     store.dispatch(
       actions.ui.filterNotes(
-        appState.notes?.filter(({ id }) => noteIds.has(id)) || emptyList,
+        notes?.filter(({ id }) => noteIds.has(id)) || emptyList,
         tagSuggestions.length > 0 ? tagSuggestions : emptyList,
         previousIndex
       )
@@ -51,7 +51,7 @@ export const middleware: S.Middleware = store => {
     const result = next(action);
 
     switch (action.type) {
-      case 'App.notesLoaded':
+      case 'NOTES_LOADED':
         if (!hasInitialized) {
           action.notes.forEach(note =>
             searchProcessor.postMessage({

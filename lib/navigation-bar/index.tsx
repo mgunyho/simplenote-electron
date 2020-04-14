@@ -136,7 +136,6 @@ export class NavigationBar extends Component<Props> {
 }
 
 const mapStateToProps: S.MapState<StateProps> = ({
-  appState: state,
   settings,
   ui: { dialogs, openedTag, showNavigation, showTrash },
 }) => ({

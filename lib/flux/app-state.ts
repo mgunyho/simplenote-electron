@@ -31,11 +31,7 @@ export const actionMap = new ActionMap({
       creator() {
         return (dispatch, getState) => {
           dispatch(actions.ui.showAllNotes());
-          dispatch(
-            this.action('notesLoaded', {
-              notes: getState().appState.notes,
-            })
-          );
+          dispatch(actions.notes.notesLoaded(getState().notes));
         };
       },
     },
@@ -111,23 +107,14 @@ export const actionMap = new ActionMap({
               } else {
                 debug(`noteCount: ${notes.length}`);
                 if (notes.length) {
-                  dispatch(this.action('notesLoaded', { notes: notes }));
+                  console.log(`loadNotes`, notes);
+                  dispatch(actions.notes.notesLoaded(notes));
                 }
               }
             };
           });
         };
       },
-    },
-
-    notesLoaded(state: AppState, { notes }: { notes: T.NoteEntity[] }) {
-      const [pinned, notPinned] = partition(notes, note =>
-        note.data.systemTags.includes('pinned')
-      );
-      const pinSortedNotes = [...pinned, ...notPinned];
-      return update(state, {
-        notes: { $set: pinSortedNotes },
-      });
     },
 
     loadAndSelectNote: {
@@ -154,7 +141,8 @@ export const actionMap = new ActionMap({
       creator({ noteId }: { noteId: T.EntityId }) {
         return (dispatch, getState: () => State) => {
           const {
-            appState: { note, notes },
+            notes,
+            ui: { note },
           } = getState();
 
           if (note && note.id === noteId) {
@@ -236,7 +224,7 @@ export const actionMap = new ActionMap({
             note => note.data.deleted
           );
           deleted.forEach(note => noteBucket.remove(note.id));
-          dispatch(this.action('notesLoaded', { notes }));
+          dispatch(actions.notes.notesLoaded(notes));
         };
       },
     },

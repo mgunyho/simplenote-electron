@@ -514,7 +514,7 @@ export class NoteList extends Component<Props> {
 const { emptyTrash, loadAndSelectNote } = appState.actionCreators;
 
 const mapStateToProps: S.MapState<StateProps> = ({
-  appState: state,
+  notes,
   ui: { filteredNotes, note, searchQuery, showTrash, tagSuggestions },
   settings: { noteDisplay },
 }) => {
@@ -541,7 +541,7 @@ const mapStateToProps: S.MapState<StateProps> = ({
   const selectedNotePreview = note && getNoteTitleAndPreview(note).preview;
 
   return {
-    hasLoaded: state.notes !== null,
+    hasLoaded: notes !== null,
     noteDisplay,
     notes: filteredNotes,
     searchQuery,
