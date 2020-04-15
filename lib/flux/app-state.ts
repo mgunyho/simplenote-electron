@@ -107,7 +107,6 @@ export const actionMap = new ActionMap({
               } else {
                 debug(`noteCount: ${notes.length}`);
                 if (notes.length) {
-                  console.log(`loadNotes`, notes);
                   dispatch(actions.notes.notesLoaded(notes));
                 }
               }
